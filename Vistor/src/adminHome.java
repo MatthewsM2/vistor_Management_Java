@@ -29,6 +29,7 @@ public class adminHome extends javax.swing.JFrame {
      */
     public adminHome() {
         initComponents();
+        getcount();
     }
 
     /**
@@ -45,6 +46,9 @@ public class adminHome extends javax.swing.JFrame {
         table = new javax.swing.JTable();
         back = new javax.swing.JButton();
         download = new javax.swing.JButton();
+        muser = new javax.swing.JToggleButton();
+        jLabel1 = new javax.swing.JLabel();
+        totalV = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,19 +83,37 @@ public class adminHome extends javax.swing.JFrame {
             }
         });
 
+        muser.setText("Manage User");
+        muser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                muserActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Total Number of Vistors :");
+
+        totalV.setText("jLabel2");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 717, Short.MAX_VALUE)
-                    .addComponent(fetch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(back)
-                        .addGap(52, 52, 52)
-                        .addComponent(download)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(totalV))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 717, Short.MAX_VALUE)
+                        .addComponent(fetch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(back)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(download)
+                            .addGap(24, 24, 24)
+                            .addComponent(muser))))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -99,13 +121,18 @@ public class adminHome extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(download)
                     .addComponent(back)
-                    .addComponent(download))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(muser))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(fetch)
                 .addGap(28, 28, 28)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(totalV))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         pack();
@@ -142,6 +169,24 @@ public class adminHome extends javax.swing.JFrame {
         
     }//GEN-LAST:event_fetchActionPerformed
 
+    public void getcount()
+    {
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/vistor","root","");
+            Statement stm = con.createStatement();
+            String sql = "select count(*) as total from vist_record";
+            ResultSet rs = stm.executeQuery(sql);
+            if (rs.next()) {
+                totalV.setText(String.valueOf(rs.getInt("total")));
+            }
+        }catch (ClassNotFoundException ex) {
+            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
             // TODO add your handling code here:
             dispose();
@@ -184,6 +229,13 @@ public class adminHome extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_downloadActionPerformed
 
+    private void muserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_muserActionPerformed
+        // TODO add your handling code here:
+        adminUsers u = new adminUsers();
+        dispose();
+        u.show();
+    }//GEN-LAST:event_muserActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -223,7 +275,10 @@ public class adminHome extends javax.swing.JFrame {
     private javax.swing.JButton back;
     private javax.swing.JButton download;
     private javax.swing.JButton fetch;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToggleButton muser;
     private javax.swing.JTable table;
+    private javax.swing.JLabel totalV;
     // End of variables declaration//GEN-END:variables
 }
