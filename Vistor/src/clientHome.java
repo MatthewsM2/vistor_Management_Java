@@ -1,4 +1,6 @@
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -26,6 +29,8 @@ public class clientHome extends javax.swing.JFrame {
      */
     public clientHome() {
         initComponents();
+        updateDate();
+        times();
     }
 
     /**
@@ -53,8 +58,8 @@ public class clientHome extends javax.swing.JFrame {
         reset = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        time = new javax.swing.JLabel();
-        date = new javax.swing.JLabel();
+        showTime = new javax.swing.JLabel();
+        showDate = new javax.swing.JLabel();
         logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -107,9 +112,9 @@ public class clientHome extends javax.swing.JFrame {
 
         jLabel8.setText("Time:");
 
-        time.setText("Time:");
+        showTime.setText("Time:");
 
-        date.setText("Date:");
+        showDate.setText("Date:");
 
         logout.setText("Logout");
         logout.addActionListener(new java.awt.event.ActionListener() {
@@ -157,9 +162,9 @@ public class clientHome extends javax.swing.JFrame {
                                 .addComponent(jLabel7)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(time)
-                            .addComponent(date))))
-                .addContainerGap(43, Short.MAX_VALUE))
+                            .addComponent(showTime)
+                            .addComponent(showDate))))
+                .addContainerGap(178, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,11 +176,10 @@ public class clientHome extends javax.swing.JFrame {
                             .addComponent(jLabel7)
                             .addComponent(logout))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel8))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(date)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(time)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(showTime)))
+                    .addComponent(showDate))
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
@@ -213,6 +217,34 @@ public class clientHome extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_emailActionPerformed
 
+    public void updateDate()
+    {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        //DateTimeFormatter tim = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String date = now.format(dat);
+        //String time = now.format(tim);
+        showDate.setText(date);
+        //showTime.setText(time);
+        
+    }
+    public void times()
+    {
+        Timer t = new Timer(0,new ActionListener()
+        {
+            @Override
+                     public void actionPerformed(ActionEvent e) {
+                    {
+                        LocalDateTime now = LocalDateTime.now();
+                        DateTimeFormatter tim = DateTimeFormatter.ofPattern("HH:mm:ss");
+                        String time = now.format(tim);
+                        showTime.setText(time);
+                    }
+            
+                     }});
+        t.start();
+    }
+    
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
         // TODO add your handling code here:
         try{
@@ -306,7 +338,6 @@ public class clientHome extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea add;
-    private javax.swing.JLabel date;
     private javax.swing.JTextField email;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -323,6 +354,7 @@ public class clientHome extends javax.swing.JFrame {
     private javax.swing.JTextArea remarks;
     private javax.swing.JButton reset;
     private javax.swing.JButton save;
-    private javax.swing.JLabel time;
+    private javax.swing.JLabel showDate;
+    private javax.swing.JLabel showTime;
     // End of variables declaration//GEN-END:variables
 }
